@@ -62,3 +62,16 @@ create table t1(id int auto_increment, col1 varchar(50), col2 varchar(10), col3 
 --   PRIMARY KEY (`id`)
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
 ```
+
+## 検証結果
+
+### new から old に書き込む場合
+
+- new は 3カラム
+- old は 2カラム
+
+INSERTのクエリでカラムを指定しているので以下のエラーが発生する
+
+```php
+Fatal error: Uncaught mysqli_sql_exception: Unknown column 'col3' in 'field list' in /var/www/html/to_old_app/post.php:11 Stack trace: #0 /var/www/html/to_old_app/post.php(11): mysqli->query('INSERT INTO t1 ...') #1 {main} thrown in /var/www/html/to_old_app/post.php on line 11
+```

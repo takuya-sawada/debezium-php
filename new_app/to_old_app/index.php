@@ -1,6 +1,6 @@
 <?php
 
-echo "<h1>old_app</h1>";
+echo "<h1>new_app to old_app</h1>";
 
 //echo phpinfo();
 
@@ -19,4 +19,4 @@ if ($result = $mysqli->query($sql)) {
 
 $mysqli->close();
 
-echo "<p><a href='form.php'>form.php</a></p>";
+echo "<p><a href='form.php'>old_mysql に書き込む form.php</a></p>";
