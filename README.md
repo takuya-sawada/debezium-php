@@ -1,4 +1,4 @@
-# laravel-debezium
+# debezium-php
 
 ## Docker
 
