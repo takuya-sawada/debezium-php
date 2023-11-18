@@ -10,7 +10,7 @@ services:
     depends_on:
       - old_app
   old_app:
-    image: php:8.2-fpm
+    build: ./docker/old_php
     volumes:
       - ./old_app:/var/www/html
   old_mysql:
@@ -36,7 +36,7 @@ services:
     depends_on:
       - new_app
   new_app:
-    image: php:8.2-fpm
+    build: ./docker/new_php
     volumes:
       - ./new_app:/var/www/html
   new_mysql:
