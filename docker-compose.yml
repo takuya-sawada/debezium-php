@@ -1,6 +1,18 @@
 version: '3.9'
 
 services:
+  old_nginx:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - ./docker/old_nginx/default.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - old_app
+  old_app:
+    image: php:8.2-fpm
+    volumes:
+      - ./old_app:/var/www/html
   old_mysql:
     image: mysql:8.0
     environment:
@@ -15,6 +27,18 @@ services:
       - ./docker/old_mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     restart: always
 
+  new_nginx:
+    image: nginx:latest
+    ports:
+      - "8082:80"
+    volumes:
+      - ./docker/new_nginx/default.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - new_app
+  new_app:
+    image: php:8.2-fpm
+    volumes:
+      - ./new_app:/var/www/html
   new_mysql:
     image: mysql:8.0
     environment:
@@ -28,6 +52,29 @@ services:
       - new_mysql_data:/var/lib/mysql
       - ./docker/new_mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     restart: always
+
+  zookeeper:
+    image: debezium/zookeeper:2.4
+    hostname: zookeeper
+  kafka:
+    image: debezium/kafka:2.4
+    hostname: kafka
+    depends_on:
+      - zookeeper
+    restart: always
+    environment:
+      - ZOOKEEPER_CONNECT=zookeeper:2181
+  connect:
+    image: debezium/connect:2.4
+    hostname: connect
+    ports:
+      - '8083:8083'
+    environment:
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=connect_configs
+      - OFFSET_STORAGE_TOPIC=connect_offsets
+      - STATUS_STORAGE_TOPIC=connect_statuses
+      - BOOTSTRAP_SERVERS=kafka:9092
 
 volumes:
   old_mysql_data:
