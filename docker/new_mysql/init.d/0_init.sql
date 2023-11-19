@@ -7,7 +7,8 @@ DROP TABLE IF EXISTS t1;
 CREATE TABLE t1
 (
     id   int auto_increment,
-    col1 varchar(10),
+    col1 varchar(50),
     col2 varchar(10),
+    col3 varchar(100),
     PRIMARY KEY (id)
 );

@@ -72,14 +72,15 @@ UPDATE t1 SET col1 = 'col1', col2 = 'col2' WHERE id = 1;
 
 1. col1カラムの桁数を10->50に変更
 2. col2カラムはnew_mysqlでは使用しない
-2. col3カラムを追加
+3. col3カラムを追加
 
 ```sql
 CREATE TABLE t1
 (
     id   int auto_increment,
-    col1 varchar(10),
+    col1 varchar(50),
     col2 varchar(10),
+    col3 varchar(100),
     PRIMARY KEY (id)
 );
 
