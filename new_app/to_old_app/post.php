@@ -6,7 +6,8 @@ $col3 = $_POST['col3'];
 
 $mysqli = new mysqli("old_mysql", "phper", "secret", "old_mysql");
 
-$sql = "INSERT INTO t1 (id, col1, col2, col3) values(NULL, '$col1', '$col2', '$col3')";
+//$sql = "INSERT INTO t1 (id, col1, col2, col3) values(NULL, '$col1', '$col2', '$col3')";
+$sql = "INSERT INTO t1 (id, col1, col2) values(NULL, '$col1', '$col2')";
 
 $mysqli->query($sql);
 

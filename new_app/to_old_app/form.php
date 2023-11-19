@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>new form to old mysql</h1>
-    <p>new_mysqlのカラム数でold_mysqlへの書き込みをする</p>
+    <p>new_mysqlのカラム数でold_mysqlへの書き込みを試みる</p>
     <form action="post.php" method="post">
         <label for="col1">col1:</label>
         <input type="text" name="col1"><br>

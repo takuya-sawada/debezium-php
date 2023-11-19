@@ -19,4 +19,4 @@ if ($result = $mysqli->query($sql)) {
 
 $mysqli->close();
 
-echo "<p><a href='form.php'>old_mysql に書き込む form.php</a></p>";
+echo "<p><a href='form.php'>new_app から old_mysql に書き込む form.php</a></p>";
