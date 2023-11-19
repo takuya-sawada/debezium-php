@@ -1,5 +1,19 @@
 # debezium-php
 
+## 使い方
+
+### 1. Docker 環境を構築する
+
+```shell
+make init && make up
+```
+
+### 2. Debezium のコネクタを old_mysql に接続する
+
+```shell
+curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json"  http://localhost:8083/connectors -d @connector.json
+```
+
 ## Reference
 
 - [Debezium connector for MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html)
@@ -8,24 +22,18 @@
 - [DebeziumでCDCを構築してみた](https://zenn.dev/stafes_blog/articles/ikkitang-691e9913644952)
 - [Integrating Apache Kafka in Laravel: Real-time Database Synchronization with Debezium Connector](https://medium.com/simform-engineering/integrating-apache-kafka-in-laravel-real-time-database-synchronization-with-debezium-connector-2506bc8f37a7)
 
-## Docker
-
-```shell
-docker compose up -d
-
-docker compose down
-```
-
 ## MySQL
 
 ### docker exec command
 
+各 MySQL への接続は Make コマンドから実行できる
+
 ```shell
 # old_mysql
-docker compose exec old_mysql bash -c 'mysql -u phper -psecret old_mysql'
+make old_mysql
 
 # new_mysql
-docker compose exec new_mysql bash -c 'mysql -u phper -psecret new_mysql'
+make new_mysql
 ```
 
 ### old_mysql
