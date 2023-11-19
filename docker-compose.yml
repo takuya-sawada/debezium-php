@@ -14,18 +14,17 @@ services:
     volumes:
       - ./old_app:/var/www/html
   old_mysql:
-    image: mysql:8.0
+    image: debezium/example-mysql:2.4
+    container_name: old_mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: old_mysql
       MYSQL_USER: phper
       MYSQL_PASSWORD: secret
     ports:
       - "3306:3306"
     volumes:
       - old_mysql_data:/var/lib/mysql
-      - ./docker/old_mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-    restart: always
+      - ./docker/old_mysql/init.d:/docker-entrypoint-initdb.d
 
   new_nginx:
     image: nginx:latest
@@ -40,41 +39,49 @@ services:
     volumes:
       - ./new_app:/var/www/html
   new_mysql:
-    image: mysql:8.0
+    image: debezium/example-mysql:2.4
+    container_name: new_mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: new_mysql
       MYSQL_USER: phper
       MYSQL_PASSWORD: secret
     ports:
       - "3307:3306"
     volumes:
       - new_mysql_data:/var/lib/mysql
-      - ./docker/new_mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-    restart: always
+      - ./docker/new_mysql/init.d:/docker-entrypoint-initdb.d
 
   zookeeper:
     image: debezium/zookeeper:2.4
-    hostname: zookeeper
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+#    ports:
+#      - "2181:2181"
   kafka:
     image: debezium/kafka:2.4
-    hostname: kafka
-    depends_on:
-      - zookeeper
-    restart: always
+    container_name: kafka
+    ports:
+      - 9092:9092
     environment:
       - ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
   connect:
     image: debezium/connect:2.4
     hostname: connect
     ports:
       - '8083:8083'
     environment:
-      - GROUP_ID=1
-      - CONFIG_STORAGE_TOPIC=connect_configs
-      - OFFSET_STORAGE_TOPIC=connect_offsets
-      - STATUS_STORAGE_TOPIC=connect_statuses
       - BOOTSTRAP_SERVERS=kafka:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+      - STATUS_STORAGE_TOPIC=my_connect_statuses
+    depends_on:
+      - kafka
+      - old_mysql
 
 volumes:
   old_mysql_data:
