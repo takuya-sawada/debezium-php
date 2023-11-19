@@ -1,4 +1,4 @@
-# laravel-debezium
+# debezium-php
 
 ## Reference
 
@@ -67,7 +67,13 @@ UPDATE t1 SET col1 = 'col1', col2 = 'col2' WHERE id = 1;
 2. col3カラムを追加
 
 ```sql
-create table t1(id int auto_increment, col1 varchar(50), col2 varchar(10), col3 varchar(100), PRIMARY KEY (id));
+CREATE TABLE t1
+(
+    id   int auto_increment,
+    col1 varchar(10),
+    col2 varchar(10),
+    PRIMARY KEY (id)
+);
 
 -- | t1    | CREATE TABLE `t1` (
 --   `id` int NOT NULL AUTO_INCREMENT,
