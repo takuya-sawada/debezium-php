@@ -14,6 +14,33 @@ make init && make up
 curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json"  http://localhost:8083/connectors -d @connector.json
 ```
 
+### 3. new_app のコンテナにログインしてコンシューマーを起動する
+
+```shell
+make new_app
+php kafka.php
+```
+
+### 4. 旧DBにデータを追加する（更新処理はコンシューマーが未実装なので確認できない）
+
+```shell
+make old_mysql
+```
+
+```sql
+INSERT INTO t1 VALUES (0, 'col1', 'col2');
+```
+
+### 5. 新DBに旧DBに追加したデータが反映されていることを確認する
+
+```shell
+make new_mysql
+```
+
+```sql
+SELECT * FROM t1;
+```
+
 ## Reference
 
 - [Debezium connector for MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html)
@@ -21,6 +48,7 @@ curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json"
 - [Debeziumを利用したDBを同期する仕組みづくり](https://techblog.raksul.com/entry/2021/12/10/debezium%25e3%2582%2592%25e5%2588%25a9%25e7%2594%25a8%25e3%2581%2597%25e3%2581%259fdb%25e3%2582%2592%25e5%2590%258c%25e6%259c%259f%25e3%2581%2599%25e3%2582%258b%25e4%25bb%2595%25e7%25b5%2584%25e3%2581%25b)
 - [DebeziumでCDCを構築してみた](https://zenn.dev/stafes_blog/articles/ikkitang-691e9913644952)
 - [Integrating Apache Kafka in Laravel: Real-time Database Synchronization with Debezium Connector](https://medium.com/simform-engineering/integrating-apache-kafka-in-laravel-real-time-database-synchronization-with-debezium-connector-2506bc8f37a7)
+- [arnaud-lb/php-rdkafka](https://github.com/arnaud-lb/php-rdkafka)
 
 ## MySQL
 

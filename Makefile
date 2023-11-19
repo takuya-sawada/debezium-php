@@ -12,5 +12,7 @@ old_mysql:
 	docker compose exec old_mysql bash -c 'mysql -u phper -psecret old_mysql'
 new_mysql:
 	docker compose exec new_mysql bash -c 'mysql -u phper -psecret new_mysql'
+new_app:
+	docker compose exec new_app bash
 rm_volume:
 	docker volume rm laravel-debezium_new_mysql_data laravel-debezium_old_mysql_data
